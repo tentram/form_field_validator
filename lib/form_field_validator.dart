@@ -1,6 +1,5 @@
 library form_field_validator;
 
-import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 /// same function signature as FormTextField's validator;
@@ -35,7 +34,11 @@ abstract class TextFieldValidator extends FieldValidator<String?> {
   }
 
   /// helper function to check if an input matches a given pattern
-  bool hasMatch(String pattern, String input, {bool caseSensitive: true}) =>
+  bool hasMatch(
+    String pattern,
+    String input, {
+    bool caseSensitive = true,
+  }) =>
       RegExp(pattern, caseSensitive: caseSensitive).hasMatch(input);
 }
 
@@ -88,7 +91,8 @@ class LengthRangeValidator extends TextFieldValidator {
   @override
   bool get ignoreEmptyValues => false;
 
-  LengthRangeValidator({required this.min, required this.max, required String errorText})
+  LengthRangeValidator(
+      {required this.min, required this.max, required String errorText})
       : super(errorText);
 
   @override
@@ -101,7 +105,8 @@ class RangeValidator extends TextFieldValidator {
   final num min;
   final num max;
 
-  RangeValidator({required this.min, required this.max, required String errorText})
+  RangeValidator(
+      {required this.min, required this.max, required String errorText})
       : super(errorText);
 
   @override
@@ -123,18 +128,21 @@ class EmailValidator extends TextFieldValidator {
   EmailValidator({required String errorText}) : super(errorText);
 
   @override
-  bool isValid(String? value) => hasMatch(_emailPattern.toString(), value!, caseSensitive: false);
+  bool isValid(String? value) =>
+      hasMatch(_emailPattern.toString(), value!, caseSensitive: false);
 }
 
 class PatternValidator extends TextFieldValidator {
   final Pattern pattern;
   final bool caseSensitive;
 
-  PatternValidator(this.pattern, {required String errorText, this.caseSensitive = true})
+  PatternValidator(this.pattern,
+      {required String errorText, this.caseSensitive = true})
       : super(errorText);
 
   @override
-  bool isValid(String? value) => hasMatch(pattern.toString(), value!, caseSensitive: caseSensitive);
+  bool isValid(String? value) =>
+      hasMatch(pattern.toString(), value!, caseSensitive: caseSensitive);
 }
 
 class DateValidator extends TextFieldValidator {
